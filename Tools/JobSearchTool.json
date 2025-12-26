@@ -1,0 +1,9 @@
+{
+  "name": "job_search",
+  "description": "Search the job anywhere in the world",
+  "color": "linear-gradient(rgb(147,22,216), rgb(207,76,175))",
+  "iconSrc": "",
+  "schema": "[{\"id\":0,\"property\":\"query\",\"description\":\"query of the user\",\"type\":\"string\",\"required\":true}]",
+  "func": "const fetch = require('node-fetch');\nconst query = $query;\nconst url = `https://jsearch.p.rapidapi.com/search?query=${query}`;\nconst options = {\n  method: 'GET',\n  headers: {\n    'x-rapidapi-key': 'abf3848851msh1bb58264b21a5eep1d366djsn9feef39e72a2',\n    'x-rapidapi-host': 'jsearch.p.rapidapi.com'\n  }\n};\n\ntry {\n\tconst response = await fetch(url, options);\n\tconst result = await response.text();\n\tconsole.log(result);\n    return result\n} catch (error) {\n\tconsole.error(error);\n}",
+  "workspaceId": "f52d009d-88f9-4b21-b9ac-1092aa8c834d"
+}
