@@ -1,0 +1,9 @@
+{
+  "name": "send_a_mail",
+  "description": "Use this tool to send a mail",
+  "color": "linear-gradient(rgb(120,38,202), rgb(61,174,175))",
+  "iconSrc": "",
+  "schema": "[{\"id\":0,\"property\":\"message\",\"description\":\"the email body\",\"type\":\"string\",\"required\":true}]",
+  "func": "const fetch = require('node-fetch');\nconst url = 'https://hook.eu1.make.com/ytp2l4uvnf5kznq5gmnk41l46wyrdlyu'\nconst options = {\n\tmethod: 'POST',\n\theaders: {\n\t\t'Content-Type': 'application/json'\n\t},\n    body: JSON.stringify({\n  \n          message: $message\n  \n      }) // Send the message in the body\n};\n\ntry {\n\tconst response = await fetch(url, options);\n\tconst result = await response.text();\n\tconsole.log(result);\n\treturn result;\n} catch (error) {\n\tconsole.error(error);\n\treturn '';\n}",
+  "workspaceId": "f52d009d-88f9-4b21-b9ac-1092aa8c834d"
+}
