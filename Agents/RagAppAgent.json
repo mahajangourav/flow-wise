@@ -1,0 +1,1080 @@
+{
+  "nodes": [
+    {
+      "id": "supervisor_0",
+      "position": {
+        "x": 409.01884482286164,
+        "y": 150.81603340428657
+      },
+      "type": "customNode",
+      "data": {
+        "id": "supervisor_0",
+        "label": "Supervisor",
+        "version": 3,
+        "name": "supervisor",
+        "type": "Supervisor",
+        "baseClasses": [
+          "Supervisor"
+        ],
+        "category": "Multi Agents",
+        "inputParams": [
+          {
+            "label": "Supervisor Name",
+            "name": "supervisorName",
+            "type": "string",
+            "placeholder": "Supervisor",
+            "default": "Supervisor",
+            "id": "supervisor_0-input-supervisorName-string",
+            "display": true
+          },
+          {
+            "label": "Supervisor Prompt",
+            "name": "supervisorPrompt",
+            "type": "string",
+            "description": "Prompt must contains {team_members}",
+            "rows": 4,
+            "default": "You are a supervisor tasked with managing a conversation between the following workers: {team_members}.\nGiven the following user request, respond with the worker to act next.\nEach worker will perform a task and respond with their results and status.\nWhen finished, respond with FINISH.\nSelect strategically to minimize the number of steps taken.",
+            "additionalParams": true,
+            "id": "supervisor_0-input-supervisorPrompt-string",
+            "display": true
+          },
+          {
+            "label": "Summarization",
+            "name": "summarization",
+            "type": "boolean",
+            "description": "Return final output as a summarization of the conversation",
+            "optional": true,
+            "additionalParams": true,
+            "id": "supervisor_0-input-summarization-boolean",
+            "display": true
+          },
+          {
+            "label": "Recursion Limit",
+            "name": "recursionLimit",
+            "type": "number",
+            "description": "Maximum number of times a call can recurse. If not provided, defaults to 100.",
+            "default": 100,
+            "additionalParams": true,
+            "id": "supervisor_0-input-recursionLimit-number",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Tool Calling Chat Model",
+            "name": "model",
+            "type": "BaseChatModel",
+            "description": "Only compatible with models that are capable of function calling: ChatOpenAI, ChatMistral, ChatAnthropic, ChatGoogleGenerativeAI, GroqChat. Best result with GPT-4 model",
+            "id": "supervisor_0-input-model-BaseChatModel",
+            "display": true
+          },
+          {
+            "label": "Agent Memory",
+            "name": "agentMemory",
+            "type": "BaseCheckpointSaver",
+            "description": "Save the state of the agent",
+            "optional": true,
+            "id": "supervisor_0-input-agentMemory-BaseCheckpointSaver",
+            "display": true
+          },
+          {
+            "label": "Input Moderation",
+            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "name": "inputModeration",
+            "type": "Moderation",
+            "optional": true,
+            "list": true,
+            "id": "supervisor_0-input-inputModeration-Moderation",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "supervisorName": "Supervisor",
+          "supervisorPrompt": "You are a supervisor managing a cover letter generation workflow.\n\nAvailable worker: {team_members}\n\nINSTRUCTIONS:\n1. When the user provides a job description, route to cover_letter_writer\n2. The cover_letter_writer will analyze the resume and generate an appropriate cover letter\n3. Once the cover letter is generated, respond with FINISH\n\nAlways route to cover_letter_writer first when a job description is provided.",
+          "model": "{{chatGoogleGenerativeAI_0.data.instance}}",
+          "agentMemory": "",
+          "summarization": "",
+          "recursionLimit": 100,
+          "inputModeration": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "supervisor_0-output-supervisor-Supervisor",
+            "name": "supervisor",
+            "label": "Supervisor",
+            "description": "",
+            "type": "Supervisor"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 489,
+      "positionAbsolute": {
+        "x": 409.01884482286164,
+        "y": 150.81603340428657
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "worker_0",
+      "position": {
+        "x": 777.6111347209745,
+        "y": 152.05401723774168
+      },
+      "type": "customNode",
+      "data": {
+        "id": "worker_0",
+        "label": "Worker",
+        "version": 2,
+        "name": "worker",
+        "type": "Worker",
+        "hideOutput": true,
+        "baseClasses": [
+          "Worker"
+        ],
+        "category": "Multi Agents",
+        "inputParams": [
+          {
+            "label": "Worker Name",
+            "name": "workerName",
+            "type": "string",
+            "placeholder": "Worker",
+            "id": "worker_0-input-workerName-string",
+            "display": true
+          },
+          {
+            "label": "Worker Prompt",
+            "name": "workerPrompt",
+            "type": "string",
+            "rows": 4,
+            "default": "You are a research assistant who can search for up-to-date info using search engine.",
+            "id": "worker_0-input-workerPrompt-string",
+            "display": true
+          },
+          {
+            "label": "Format Prompt Values",
+            "name": "promptValues",
+            "type": "json",
+            "optional": true,
+            "acceptVariable": true,
+            "list": true,
+            "id": "worker_0-input-promptValues-json",
+            "display": true
+          },
+          {
+            "label": "Max Iterations",
+            "name": "maxIterations",
+            "type": "number",
+            "optional": true,
+            "id": "worker_0-input-maxIterations-number",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Tools",
+            "name": "tools",
+            "type": "Tool",
+            "list": true,
+            "optional": true,
+            "id": "worker_0-input-tools-Tool",
+            "display": true
+          },
+          {
+            "label": "Supervisor",
+            "name": "supervisor",
+            "type": "Supervisor",
+            "id": "worker_0-input-supervisor-Supervisor",
+            "display": true
+          },
+          {
+            "label": "Tool Calling Chat Model",
+            "name": "model",
+            "type": "BaseChatModel",
+            "optional": true,
+            "description": "Only compatible with models that are capable of function calling: ChatOpenAI, ChatMistral, ChatAnthropic, ChatGoogleGenerativeAI, ChatVertexAI, GroqChat. If not specified, supervisor's model will be used",
+            "id": "worker_0-input-model-BaseChatModel",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "workerName": "cover_letter_writer",
+          "workerPrompt": "You are an expert cover letter writer and hiring specialist. Your task is to create compelling, personalized cover letters.\n\nPROCESS:\n1. ALWAYS use the resume_analyzer tool first to retrieve the user's resume information\n2. Carefully analyze the job description provided by the user\n3. Match relevant skills, experiences, and achievements from the resume to the job requirements\n4. Write a professional cover letter that:\n   - Addresses the specific role and company\n   - Highlights relevant qualifications from the resume\n   - Demonstrates genuine interest and cultural fit\n   - Uses a professional yet engaging tone\n   - Is concise (3-4 paragraphs)\n   - Includes specific examples from their experience\n\nIMPORTANT: The user will provide the job description in their message. Extract the company name, role, and key requirements from it.",
+          "tools": [
+            "{{retrieverTool_0.data.instance}}"
+          ],
+          "supervisor": "{{supervisor_0.data.instance}}",
+          "model": "",
+          "promptValues": "",
+          "maxIterations": ""
+        },
+        "outputAnchors": [],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 728,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 777.6111347209745,
+        "y": 152.05401723774168
+      },
+      "dragging": false
+    },
+    {
+      "id": "chatGoogleGenerativeAI_0",
+      "position": {
+        "x": 18.41411337431464,
+        "y": 148.64371230384975
+      },
+      "type": "customNode",
+      "data": {
+        "id": "chatGoogleGenerativeAI_0",
+        "label": "ChatGoogleGenerativeAI",
+        "version": 3.1,
+        "name": "chatGoogleGenerativeAI",
+        "type": "ChatGoogleGenerativeAI",
+        "baseClasses": [
+          "ChatGoogleGenerativeAI",
+          "LangchainChatGoogleGenerativeAI",
+          "BaseChatModel",
+          "BaseLanguageModel",
+          "Runnable"
+        ],
+        "category": "Chat Models",
+        "description": "Wrapper around Google Gemini large language models that use the Chat endpoint",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "googleGenerativeAI"
+            ],
+            "optional": false,
+            "description": "Google Generative AI credential.",
+            "id": "chatGoogleGenerativeAI_0-input-credential-credential",
+            "display": true
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "default": "gemini-1.5-flash-latest",
+            "id": "chatGoogleGenerativeAI_0-input-modelName-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Custom Model Name",
+            "name": "customModelName",
+            "type": "string",
+            "placeholder": "gemini-1.5-pro-exp-0801",
+            "description": "Custom model name to use. If provided, it will override the model selected",
+            "additionalParams": true,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-customModelName-string",
+            "display": true
+          },
+          {
+            "label": "Temperature",
+            "name": "temperature",
+            "type": "number",
+            "step": 0.1,
+            "default": 0.9,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-temperature-number",
+            "display": true
+          },
+          {
+            "label": "Streaming",
+            "name": "streaming",
+            "type": "boolean",
+            "default": true,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-streaming-boolean",
+            "display": true
+          },
+          {
+            "label": "Max Output Tokens",
+            "name": "maxOutputTokens",
+            "type": "number",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-maxOutputTokens-number",
+            "display": true
+          },
+          {
+            "label": "Top Probability",
+            "name": "topP",
+            "type": "number",
+            "step": 0.1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-topP-number",
+            "display": true
+          },
+          {
+            "label": "Top Next Highest Probability Tokens",
+            "name": "topK",
+            "type": "number",
+            "description": "Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-topK-number",
+            "display": true
+          },
+          {
+            "label": "Safety Settings",
+            "name": "safetySettings",
+            "type": "array",
+            "description": "Safety settings for the model. Refer to the <a href=\"https://ai.google.dev/gemini-api/docs/safety-settings\">official guide</a> on how to use Safety Settings",
+            "array": [
+              {
+                "label": "Harm Category",
+                "name": "harmCategory",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "Dangerous",
+                    "name": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "description": "Promotes, facilitates, or encourages harmful acts."
+                  },
+                  {
+                    "label": "Harassment",
+                    "name": "HARM_CATEGORY_HARASSMENT",
+                    "description": "Negative or harmful comments targeting identity and/or protected attributes."
+                  },
+                  {
+                    "label": "Hate Speech",
+                    "name": "HARM_CATEGORY_HATE_SPEECH",
+                    "description": "Content that is rude, disrespectful, or profane."
+                  },
+                  {
+                    "label": "Sexually Explicit",
+                    "name": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "description": "Contains references to sexual acts or other lewd content."
+                  },
+                  {
+                    "label": "Civic Integrity",
+                    "name": "HARM_CATEGORY_CIVIC_INTEGRITY",
+                    "description": "Election-related queries."
+                  }
+                ]
+              },
+              {
+                "label": "Harm Block Threshold",
+                "name": "harmBlockThreshold",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "None",
+                    "name": "BLOCK_NONE",
+                    "description": "Always show regardless of probability of unsafe content"
+                  },
+                  {
+                    "label": "Only High",
+                    "name": "BLOCK_ONLY_HIGH",
+                    "description": "Block when high probability of unsafe content"
+                  },
+                  {
+                    "label": "Medium and Above",
+                    "name": "BLOCK_MEDIUM_AND_ABOVE",
+                    "description": "Block when medium or high probability of unsafe content"
+                  },
+                  {
+                    "label": "Low and Above",
+                    "name": "BLOCK_LOW_AND_ABOVE",
+                    "description": "Block when low, medium or high probability of unsafe content"
+                  },
+                  {
+                    "label": "Threshold Unspecified (Default Threshold)",
+                    "name": "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
+                    "description": "Threshold is unspecified, block using default threshold"
+                  }
+                ]
+              }
+            ],
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-safetySettings-array",
+            "display": true
+          },
+          {
+            "label": "Thinking Budget",
+            "name": "thinkingBudget",
+            "type": "number",
+            "description": "Guides the number of thinking tokens. -1 for dynamic, 0 to disable, or positive integer (Gemini 2.5 models).",
+            "step": 1,
+            "optional": true,
+            "additionalParams": true,
+            "show": {
+              "modelName": [
+                "gemini-2.5-pro",
+                "gemini-2.5-flash",
+                "gemini-2.5-flash-lite"
+              ]
+            },
+            "id": "chatGoogleGenerativeAI_0-input-thinkingBudget-number",
+            "display": true
+          },
+          {
+            "label": "Base URL",
+            "name": "baseUrl",
+            "type": "string",
+            "description": "Base URL for the API. Leave empty to use the default.",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatGoogleGenerativeAI_0-input-baseUrl-string",
+            "display": true
+          },
+          {
+            "label": "Allow Image Uploads",
+            "name": "allowImageUploads",
+            "type": "boolean",
+            "description": "Allow image input. Refer to the <a href=\"https://docs.flowiseai.com/using-flowise/uploads#image\" target=\"_blank\">docs</a> for more details.",
+            "default": false,
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-allowImageUploads-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Cache",
+            "name": "cache",
+            "type": "BaseCache",
+            "optional": true,
+            "id": "chatGoogleGenerativeAI_0-input-cache-BaseCache",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "cache": "",
+          "modelName": "gemini-2.5-pro",
+          "customModelName": "",
+          "temperature": "0.4",
+          "streaming": true,
+          "maxOutputTokens": "",
+          "topP": "",
+          "topK": "",
+          "safetySettings": "",
+          "thinkingBudget": "",
+          "baseUrl": "",
+          "allowImageUploads": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|LangchainChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable",
+            "name": "chatGoogleGenerativeAI",
+            "label": "ChatGoogleGenerativeAI",
+            "description": "Wrapper around Google Gemini large language models that use the Chat endpoint",
+            "type": "ChatGoogleGenerativeAI | LangchainChatGoogleGenerativeAI | BaseChatModel | BaseLanguageModel | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 676,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 18.41411337431464,
+        "y": 148.64371230384975
+      },
+      "dragging": false
+    },
+    {
+      "id": "retrieverTool_0",
+      "position": {
+        "x": 791.3161890717532,
+        "y": -591.5912594058095
+      },
+      "type": "customNode",
+      "data": {
+        "id": "retrieverTool_0",
+        "label": "Retriever Tool",
+        "version": 3,
+        "name": "retrieverTool",
+        "type": "RetrieverTool",
+        "baseClasses": [
+          "RetrieverTool",
+          "DynamicTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use a retriever as allowed tool for agent",
+        "inputParams": [
+          {
+            "label": "Retriever Name",
+            "name": "name",
+            "type": "string",
+            "placeholder": "search_state_of_union",
+            "id": "retrieverTool_0-input-name-string",
+            "display": true
+          },
+          {
+            "label": "Retriever Description",
+            "name": "description",
+            "type": "string",
+            "description": "When should agent uses to retrieve documents",
+            "rows": 3,
+            "placeholder": "Searches and returns documents regarding the state-of-the-union.",
+            "id": "retrieverTool_0-input-description-string",
+            "display": true
+          },
+          {
+            "label": "Return Source Documents",
+            "name": "returnSourceDocuments",
+            "type": "boolean",
+            "optional": true,
+            "id": "retrieverTool_0-input-returnSourceDocuments-boolean",
+            "display": true
+          },
+          {
+            "label": "Additional Metadata Filter",
+            "name": "retrieverToolMetadataFilter",
+            "type": "json",
+            "description": "Add additional metadata filter on top of the existing filter from vector store",
+            "optional": true,
+            "additionalParams": true,
+            "hint": {
+              "label": "What can you filter?",
+              "value": "Add additional filters to vector store. You can also filter with flow config, including the current \"state\":\n- `$flow.sessionId`\n- `$flow.chatId`\n- `$flow.chatflowId`\n- `$flow.input`\n- `$flow.state`\n"
+            },
+            "acceptVariable": true,
+            "id": "retrieverTool_0-input-retrieverToolMetadataFilter-json",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Retriever",
+            "name": "retriever",
+            "type": "BaseRetriever",
+            "id": "retrieverTool_0-input-retriever-BaseRetriever",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "name": "resume_analyzer",
+          "description": "Use this tool to retrieve information from the user's resume including skills, experience, education, and achievements. Always use this tool first before generating a cover letter.",
+          "retriever": "{{memoryVectorStore_0.data.instance}}",
+          "returnSourceDocuments": false,
+          "retrieverToolMetadataFilter": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "retrieverTool_0-output-retrieverTool-RetrieverTool|DynamicTool|Tool|StructuredTool|Runnable",
+            "name": "retrieverTool",
+            "label": "RetrieverTool",
+            "description": "Use a retriever as allowed tool for agent",
+            "type": "RetrieverTool | DynamicTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 662,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 791.3161890717532,
+        "y": -591.5912594058095
+      },
+      "dragging": false
+    },
+    {
+      "id": "memoryVectorStore_0",
+      "position": {
+        "x": 438.30807234063195,
+        "y": -487.9150574614754
+      },
+      "type": "customNode",
+      "data": {
+        "id": "memoryVectorStore_0",
+        "label": "In-Memory Vector Store",
+        "version": 1,
+        "name": "memoryVectorStore",
+        "type": "Memory",
+        "baseClasses": [
+          "Memory",
+          "VectorStoreRetriever",
+          "BaseRetriever"
+        ],
+        "category": "Vector Stores",
+        "description": "In-memory vectorstore that stores embeddings and does an exact, linear search for the most similar embeddings.",
+        "inputParams": [
+          {
+            "label": "Top K",
+            "name": "topK",
+            "description": "Number of top results to fetch. Default to 4",
+            "placeholder": "4",
+            "type": "number",
+            "optional": true,
+            "id": "memoryVectorStore_0-input-topK-number",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Document",
+            "name": "document",
+            "type": "Document",
+            "list": true,
+            "optional": true,
+            "id": "memoryVectorStore_0-input-document-Document",
+            "display": true
+          },
+          {
+            "label": "Embeddings",
+            "name": "embeddings",
+            "type": "Embeddings",
+            "id": "memoryVectorStore_0-input-embeddings-Embeddings",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "document": [
+            "{{pdfFile_0.data.instance}}"
+          ],
+          "embeddings": "{{googleGenerativeAiEmbeddings_0.data.instance}}",
+          "topK": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "",
+            "options": [
+              {
+                "id": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+                "name": "retriever",
+                "label": "Memory Retriever",
+                "description": "",
+                "type": "Memory | VectorStoreRetriever | BaseRetriever"
+              },
+              {
+                "id": "memoryVectorStore_0-output-vectorStore-Memory|VectorStore",
+                "name": "vectorStore",
+                "label": "Memory Vector Store",
+                "description": "",
+                "type": "Memory | VectorStore"
+              }
+            ],
+            "default": "retriever"
+          }
+        ],
+        "outputs": {
+          "output": "retriever"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 413,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 438.30807234063195,
+        "y": -487.9150574614754
+      },
+      "dragging": false
+    },
+    {
+      "id": "googleGenerativeAiEmbeddings_0",
+      "position": {
+        "x": 36.04026234674288,
+        "y": -474.54327430378385
+      },
+      "type": "customNode",
+      "data": {
+        "id": "googleGenerativeAiEmbeddings_0",
+        "label": "GoogleGenerativeAI Embeddings",
+        "version": 2,
+        "name": "googleGenerativeAiEmbeddings",
+        "type": "GoogleGenerativeAiEmbeddings",
+        "baseClasses": [
+          "GoogleGenerativeAiEmbeddings",
+          "GoogleGenerativeAIEmbeddings",
+          "Embeddings"
+        ],
+        "category": "Embeddings",
+        "description": "Google Generative API to generate embeddings for a given text",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "googleGenerativeAI"
+            ],
+            "optional": false,
+            "description": "Google Generative AI credential.",
+            "id": "googleGenerativeAiEmbeddings_0-input-credential-credential",
+            "display": true
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "default": "embedding-001",
+            "id": "googleGenerativeAiEmbeddings_0-input-modelName-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Task Type",
+            "name": "tasktype",
+            "type": "options",
+            "description": "Type of task for which the embedding will be used",
+            "options": [
+              {
+                "label": "TASK_TYPE_UNSPECIFIED",
+                "name": "TASK_TYPE_UNSPECIFIED"
+              },
+              {
+                "label": "RETRIEVAL_QUERY",
+                "name": "RETRIEVAL_QUERY"
+              },
+              {
+                "label": "RETRIEVAL_DOCUMENT",
+                "name": "RETRIEVAL_DOCUMENT"
+              },
+              {
+                "label": "SEMANTIC_SIMILARITY",
+                "name": "SEMANTIC_SIMILARITY"
+              },
+              {
+                "label": "CLASSIFICATION",
+                "name": "CLASSIFICATION"
+              },
+              {
+                "label": "CLUSTERING",
+                "name": "CLUSTERING"
+              }
+            ],
+            "default": "TASK_TYPE_UNSPECIFIED",
+            "id": "googleGenerativeAiEmbeddings_0-input-tasktype-options",
+            "display": true
+          },
+          {
+            "label": "Strip New Lines",
+            "name": "stripNewLines",
+            "type": "boolean",
+            "optional": true,
+            "additionalParams": true,
+            "description": "Remove new lines from input text before embedding to reduce token count",
+            "id": "googleGenerativeAiEmbeddings_0-input-stripNewLines-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "modelName": "embedding-001",
+          "tasktype": "RETRIEVAL_DOCUMENT",
+          "stripNewLines": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings",
+            "name": "googleGenerativeAiEmbeddings",
+            "label": "GoogleGenerativeAiEmbeddings",
+            "description": "Google Generative API to generate embeddings for a given text",
+            "type": "GoogleGenerativeAiEmbeddings | GoogleGenerativeAIEmbeddings | Embeddings"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 526,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 36.04026234674288,
+        "y": -474.54327430378385
+      },
+      "dragging": false
+    },
+    {
+      "id": "pdfFile_0",
+      "position": {
+        "x": 43.43485152509845,
+        "y": -1069.4274553619493
+      },
+      "type": "customNode",
+      "data": {
+        "id": "pdfFile_0",
+        "label": "Pdf File",
+        "version": 2,
+        "name": "pdfFile",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "Load data from PDF files",
+        "inputParams": [
+          {
+            "label": "Pdf File",
+            "name": "pdfFile",
+            "type": "file",
+            "fileType": ".pdf",
+            "id": "pdfFile_0-input-pdfFile-file",
+            "display": true
+          },
+          {
+            "label": "Usage",
+            "name": "usage",
+            "type": "options",
+            "options": [
+              {
+                "label": "One document per page",
+                "name": "perPage"
+              },
+              {
+                "label": "One document per file",
+                "name": "perFile"
+              }
+            ],
+            "default": "perPage",
+            "id": "pdfFile_0-input-usage-options",
+            "display": true
+          },
+          {
+            "label": "Use Legacy Build",
+            "name": "legacyBuild",
+            "type": "boolean",
+            "optional": true,
+            "additionalParams": true,
+            "id": "pdfFile_0-input-legacyBuild-boolean",
+            "display": true
+          },
+          {
+            "label": "Additional Metadata",
+            "name": "metadata",
+            "type": "json",
+            "description": "Additional metadata to be added to the extracted documents",
+            "optional": true,
+            "additionalParams": true,
+            "id": "pdfFile_0-input-metadata-json",
+            "display": true
+          },
+          {
+            "label": "Omit Metadata Keys",
+            "name": "omitMetadataKeys",
+            "type": "string",
+            "rows": 4,
+            "description": "Each document loader comes with a default set of metadata keys that are extracted from the document. You can use this field to omit some of the default metadata keys. The value should be a list of keys, seperated by comma. Use * to omit all metadata keys execept the ones you specify in the Additional Metadata field",
+            "placeholder": "key1, key2, key3.nestedKey1",
+            "optional": true,
+            "additionalParams": true,
+            "id": "pdfFile_0-input-omitMetadataKeys-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "pdfFile_0-input-textSplitter-TextSplitter",
+            "display": true
+          }
+        ],
+        "inputs": {
+          "textSplitter": "{{recursiveCharacterTextSplitter_0.data.instance}}",
+          "usage": "perFile",
+          "legacyBuild": "",
+          "metadata": "",
+          "omitMetadataKeys": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "Array of document objects containing metadata and pageContent",
+            "options": [
+              {
+                "id": "pdfFile_0-output-document-Document|json",
+                "name": "document",
+                "label": "Document",
+                "description": "Array of document objects containing metadata and pageContent",
+                "type": "Document | json"
+              },
+              {
+                "id": "pdfFile_0-output-text-string|json",
+                "name": "text",
+                "label": "Text",
+                "description": "Concatenated string from pageContent of documents",
+                "type": "string | json"
+              }
+            ],
+            "default": "document"
+          }
+        ],
+        "outputs": {
+          "output": "document"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 560,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 43.43485152509845,
+        "y": -1069.4274553619493
+      },
+      "dragging": false
+    },
+    {
+      "id": "recursiveCharacterTextSplitter_0",
+      "position": {
+        "x": -338.67619570688566,
+        "y": -1070.25463598355
+      },
+      "type": "customNode",
+      "data": {
+        "id": "recursiveCharacterTextSplitter_0",
+        "label": "Recursive Character Text Splitter",
+        "version": 2,
+        "name": "recursiveCharacterTextSplitter",
+        "type": "RecursiveCharacterTextSplitter",
+        "baseClasses": [
+          "RecursiveCharacterTextSplitter",
+          "TextSplitter",
+          "BaseDocumentTransformer",
+          "Runnable"
+        ],
+        "category": "Text Splitters",
+        "description": "Split documents recursively by different characters - starting with \"\\n\\n\", then \"\\n\", then \" \"",
+        "inputParams": [
+          {
+            "label": "Chunk Size",
+            "name": "chunkSize",
+            "type": "number",
+            "description": "Number of characters in each chunk. Default is 1000.",
+            "default": 1000,
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-chunkSize-number",
+            "display": true
+          },
+          {
+            "label": "Chunk Overlap",
+            "name": "chunkOverlap",
+            "type": "number",
+            "description": "Number of characters to overlap between chunks. Default is 200.",
+            "default": 200,
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-chunkOverlap-number",
+            "display": true
+          },
+          {
+            "label": "Custom Separators",
+            "name": "separators",
+            "type": "string",
+            "rows": 4,
+            "description": "Array of custom separators to determine when to split the text, will override the default separators",
+            "placeholder": "[\"|\", \"##\", \">\", \"-\"]",
+            "additionalParams": true,
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-separators-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "chunkSize": "100",
+          "chunkOverlap": "50",
+          "separators": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+            "name": "recursiveCharacterTextSplitter",
+            "label": "RecursiveCharacterTextSplitter",
+            "description": "Split documents recursively by different characters - starting with \"\\n\\n\", then \"\\n\", then \" \"",
+            "type": "RecursiveCharacterTextSplitter | TextSplitter | BaseDocumentTransformer | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 436,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -338.67619570688566,
+        "y": -1070.25463598355
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "supervisor_0",
+      "sourceHandle": "supervisor_0-output-supervisor-Supervisor",
+      "target": "worker_0",
+      "targetHandle": "worker_0-input-supervisor-Supervisor",
+      "type": "buttonedge",
+      "id": "supervisor_0-supervisor_0-output-supervisor-Supervisor-worker_0-worker_0-input-supervisor-Supervisor"
+    },
+    {
+      "source": "chatGoogleGenerativeAI_0",
+      "sourceHandle": "chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|LangchainChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable",
+      "target": "supervisor_0",
+      "targetHandle": "supervisor_0-input-model-BaseChatModel",
+      "type": "buttonedge",
+      "id": "chatGoogleGenerativeAI_0-chatGoogleGenerativeAI_0-output-chatGoogleGenerativeAI-ChatGoogleGenerativeAI|LangchainChatGoogleGenerativeAI|BaseChatModel|BaseLanguageModel|Runnable-supervisor_0-supervisor_0-input-model-BaseChatModel"
+    },
+    {
+      "source": "retrieverTool_0",
+      "sourceHandle": "retrieverTool_0-output-retrieverTool-RetrieverTool|DynamicTool|Tool|StructuredTool|Runnable",
+      "target": "worker_0",
+      "targetHandle": "worker_0-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "retrieverTool_0-retrieverTool_0-output-retrieverTool-RetrieverTool|DynamicTool|Tool|StructuredTool|Runnable-worker_0-worker_0-input-tools-Tool"
+    },
+    {
+      "source": "memoryVectorStore_0",
+      "sourceHandle": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+      "target": "retrieverTool_0",
+      "targetHandle": "retrieverTool_0-input-retriever-BaseRetriever",
+      "type": "buttonedge",
+      "id": "memoryVectorStore_0-memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever-retrieverTool_0-retrieverTool_0-input-retriever-BaseRetriever"
+    },
+    {
+      "source": "googleGenerativeAiEmbeddings_0",
+      "sourceHandle": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-embeddings-Embeddings",
+      "type": "buttonedge",
+      "id": "googleGenerativeAiEmbeddings_0-googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|GoogleGenerativeAIEmbeddings|Embeddings-memoryVectorStore_0-memoryVectorStore_0-input-embeddings-Embeddings"
+    },
+    {
+      "source": "pdfFile_0",
+      "sourceHandle": "pdfFile_0-output-document-Document|json",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "pdfFile_0-pdfFile_0-output-document-Document|json-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    },
+    {
+      "source": "recursiveCharacterTextSplitter_0",
+      "sourceHandle": "recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+      "target": "pdfFile_0",
+      "targetHandle": "pdfFile_0-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "recursiveCharacterTextSplitter_0-recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-pdfFile_0-pdfFile_0-input-textSplitter-TextSplitter"
+    }
+  ]
+}
